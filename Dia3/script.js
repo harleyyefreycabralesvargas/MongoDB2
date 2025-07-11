@@ -1,4 +1,4 @@
-// Creacion de una base de datos llamada "Dia3_MongoDB2" 
+// Creacion de una base de datos llamada "Dia3_MongoDB2".
 use Dia3_MongoDB2;
 // Creacion e insercion del archivo csv convertido en json y copiado para insertar con insertMany a una coleccion llamada "productos"
 db.productos.insertMany([
