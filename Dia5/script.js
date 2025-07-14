@@ -23,30 +23,68 @@ function categorizar(clientes) {
     print("-----------------------------");
   };
   
-  // Save the function to MongoDB
-  db.system.js.save({
-    _id: 'categorizar',
-    value: categorizar
-  });
+// Guadar funcion
+db.system.js.insertOne({
+  _id: 'categorizar',
+  value: categorizar
+});
 
+// Probar
+db.clientes.find().forEach(function(doc) {
+    categorizar(doc);
+  });
 //   ### ✅ Ejercicio 2
 
 //   📌 Filtrar clientes cuya media de compras sea superior a $90.000:
-  
-//   ```js
-  
-//   ```
-  
+
+function calcularPromedio(compras) {
+    if (!compras.length) return 0;
+    var total = compras.reduce((a, b) => a + b, 0);
+    return total / compras.length;
+  }
+
+function comprasMayor90000(clientes) {
+    var nombre = clientes.nombre;
+    var promedio=calcularPromedio(clientes.compras);
+    if (promedio > 90000) {
+        print("Cliente:", nombre);
+        print("Promedio:", promedio);
+  }
+};
+// Guadar funcion
+db.system.js.insertOne({
+    _id: 'comprasMayor90000',
+    value: comprasMayor90000
+  });
+// probar 
+db.clientes.find().forEach(function(doc) {
+    comprasMayor90000(doc);
+  });
+
 //   ---
   
 //   ### ✅ Ejercicio 3
   
 //   📌 Crear una función que determine si un cliente es joven (edad < 30) y lo imprima:
   
-//   ```js
-  
-//   ```
-  
+function determinarJovenes(clientes) {
+    var nombre = clientes.nombre;
+    var edad=(clientes.edad);
+    if (edad <30) {
+        print("Cliente:", nombre);
+        print("Edad:", edad);
+  }
+};
+// guardar
+db.system.js.insertOne({
+    _id: 'determinarJovenes',
+    value: determinarJovenes
+  });
+
+// probar
+db.clientes.find().forEach(function(doc) {
+    determinarJovenes(doc);
+  });
 //   ---
   
 //   ## 6. 🛠 Taller Final
@@ -57,6 +95,32 @@ function categorizar(clientes) {
 //   - Adulto Frecuente: edad >= 30 y promedio entre 70.000 y 90.000
 //   - Otro: lo demás
   
-//   ```js
-  
-//   ```
+function rangos(clientes) {
+    var nombre = clientes.nombre;
+    var promedio=calcularPromedio(clientes.compras);
+    var edad=(clientes.edad);
+    if (edad <30 && promedio>=90000) {
+        print("Cliente:", nombre);
+        print("Edad:", edad);
+        print("Promedio:", promedio);
+        print("Clacificacion: Joven premium")
+  }else if (edad >=30 && promedio<90000 && promedio>70000 ) {
+    print("Cliente:", nombre);
+    print("Edad:", edad);
+    print("Promedio:", promedio);
+    print("Clacificacion: Adulto frecuente")
+}else{   print("Cliente:", nombre);
+print("Edad:", edad);
+print("Promedio:", promedio);
+print("Clacificacion: Otro")}
+};
+// guardar
+db.system.js.insertOne({
+    _id: 'rangos',
+    value: rangos
+  });
+
+// probar
+db.clientes.find().forEach(function(doc) {
+    rangos(doc);
+  });
